@@ -1,5 +1,7 @@
 export const GET_TABLES = "GET_TABLES";
-export const GET_MENUS = "GET_MENUS";
+export const GET_MENUS_STARTED = "GET_MENUS_STARTED";
+export const GET_MENUS_SUCCESS = "GET_MENUS_SUCCESS";
+export const GET_MENUS_FAILED = "GET_MENUS_FAILED";
 export const UPDATE_ORDER = "UPDATE_ORDER";
 export const GET_ORDERS = "GET_ORDER";
 export const SET_TABLE = "SET_TABLE";

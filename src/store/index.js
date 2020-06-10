@@ -1,13 +1,26 @@
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
 
 import TABLES from "../constants/tables";
-import MENUS from "../constants/menus";
-import {CLOSE_MODAL, GET_MENUS, GET_ORDERS, GET_TABLES, OPEN_MODAL, SET_TABLE, UPDATE_ORDER} from "./action_types";
+import {
+  CLOSE_MODAL,
+  GET_MENUS_FAILED,
+  GET_MENUS_STARTED, GET_MENUS_SUCCESS,
+  GET_ORDERS,
+  GET_TABLES,
+  OPEN_MODAL,
+  SET_TABLE,
+  UPDATE_ORDER
+} from "./action_types";
 
 let init_state = {
+  menus: [],
   orders: [],
   table: null,
-  order_modal: false
+  order_modal: false,
+  loading: {
+    menus: false
+  }
 };
 
 let orders;
@@ -17,8 +30,14 @@ let store = createStore(function (state = init_state, action) {
     case GET_TABLES:
       return {...state, tables: TABLES};
 
-    case GET_MENUS:
-      return {...state, menus: MENUS};
+    case GET_MENUS_STARTED:
+      return {...state, loading: {...state.loading, menus: true}};
+
+    case GET_MENUS_SUCCESS:
+      return {...state, menus: action.menus, loading: {...state.loading, menus: false}};
+
+    case GET_MENUS_FAILED:
+      return {...state, menus: [], loading: {...state.loading, menus: false}};
 
     case UPDATE_ORDER:
       let payload = action.payload;
@@ -66,9 +85,8 @@ let store = createStore(function (state = init_state, action) {
     default:
       return state;
   }
-}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+}, applyMiddleware(thunk));
 
-store.dispatch({type: GET_MENUS});
 store.dispatch({type: GET_TABLES});
 
 export default store;

@@ -25,7 +25,7 @@ class OrderModal extends React.Component{
                   this.props.orders.map(item => {
                     total += item.count * item.menu.price;
                     return (
-                      <div className={"order_row"}>
+                      <div key={item.menu.id} className={"order_row"}>
                         <div className={"order_cell"}>
                           {item.menu.name}
                         </div>
