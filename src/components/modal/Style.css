@@ -1,0 +1,61 @@
+.modal {
+    background-color: rgba(0, 0, 0, 0.86);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.modal_box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 50%;
+    min-height: 100px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.modal_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal_close {
+    font-size: 2em;
+}
+
+.order_table {
+
+}
+
+.order_row {
+    display: flex;
+}
+
+.order_cell:nth-child(1){
+    width: 300px;
+}
+
+.order_cell:nth-child(2){
+    display: flex;
+    text-align: right;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.order_count {
+    margin-right: 20px;
+}
+
+.order_price {
+    width: 100px;
+}
+
+.order_total {
+    text-align: right;
+    flex: 1;
+}

@@ -1,0 +1,18 @@
+.menus {
+    width: calc(100% - 250px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.menu {
+    width: 25%;
+    background-color: cadetblue;
+    border: 1px solid black;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.menu:hover {
+    background-color: aquamarine;
+}
