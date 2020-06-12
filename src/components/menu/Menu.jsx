@@ -1,23 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import { withStyles  } from '@material-ui/core/styles';
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import "./Style.css";
-
-import MenuItem from "./MenuItem";
+import "../../App.css";
 import {getMenus} from "../../store/actions";
+import MenuItem from "./MenuItem";
+
+const useStyles = (theme) => ({
+  width_auto: {
+    width: "auto"
+  }
+});
 
 class Menu extends React.Component {
   render() {
     return (
-      <div className={"menus"}>
+      <Box>
         {
           this.props.loading &&
             <div>LOADING</div>
         }
-        {this.props.menus.map((item) => {
-          return <MenuItem key={item.id} item={item}/>;
-        })}
-      </div>
+        <Grid container spacing={2}>
+          {this.props.menus.map((item) => {
+            return <MenuItem key={item.id} item={item}/>;
+          })}
+        </Grid>
+      </Box>
     );
   }
 }
@@ -33,4 +43,4 @@ let ReduxMenu = connect(state => {
   };
 })(Menu);
 
-export default ReduxMenu;
+export default withStyles(useStyles)(ReduxMenu);

@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware} from "redux";
+import {createStore, compose, applyMiddleware} from "redux";
 import thunk from 'redux-thunk';
 
 import TABLES from "../constants/tables";
@@ -13,7 +13,7 @@ import {
   UPDATE_ORDER
 } from "./action_types";
 
-let init_state = {
+const init_state = {
   menus: [],
   orders: [],
   table: null,
@@ -22,6 +22,8 @@ let init_state = {
     menus: false
   }
 };
+
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 let orders;
 
@@ -85,7 +87,7 @@ let store = createStore(function (state = init_state, action) {
     default:
       return state;
   }
-}, applyMiddleware(thunk));
+}, composeEnhancer(applyMiddleware(thunk)));
 
 store.dispatch({type: GET_TABLES});
 

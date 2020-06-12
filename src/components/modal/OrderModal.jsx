@@ -1,58 +1,103 @@
 import React from "react";
 import "./Style.css";
+import "../../App.css"
 import {connect} from "react-redux";
 import {CLOSE_MODAL} from "../../store/action_types";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import Modal from "@material-ui/core/Modal";
+import Paper from "@material-ui/core/Paper";
+import TableContainer from "@material-ui/core/TableContainer";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
+import TableCell from '@material-ui/core/TableCell';
+import Box from "@material-ui/core/Box";
+
 
 class OrderModal extends React.Component{
   render() {
     let total = 0;
     return (
-      <div className={this.props.open ? "modal" : "modal hide"}>
-        <div className={"modal_box"}>
-          <div className={"modal_content"}>
-            <div className={"modal_header"}>
-              <div>
-                <h3>Your Orders</h3>
-              </div>
-              <div>
-                <span className={"modal_close"} onClick={() => { this.props.closeModal() }}>&times;</span>
-              </div>
-            </div>
-            <div className={"modal_body"}>
-              <div className={"order_table"}>
-                {
-                  this.props.orders.length > 0 &&
-                  this.props.orders.map(item => {
-                    total += item.count * item.menu.price;
-                    return (
-                      <div key={item.menu.id} className={"order_row"}>
-                        <div className={"order_cell"}>
-                          {item.menu.name}
-                        </div>
-                        <div className={"order_cell"}>
-                          <div className={"order_count"}>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={"modal"}
+        open={this.props.open}
+        onClose={this.props.closeModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={this.props.open}>
+          <Box className={"order-modal"}>
+            <Grid container justify={"space-between"} alignItems={"center"}>
+              <Typography variant={"h5"} component={"h5"}>
+                Your Orders
+              </Typography>
+              <IconButton size={"medium"} onClick={this.props.closeModal}>
+                <CloseIcon fontSize={"small"}/>
+              </IconButton>
+            </Grid>
+            <TableContainer component={Paper}>
+              <Table size="small" stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <TableCell size={"small"} align={"center"}>No</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Count</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell>Subtotal</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    this.props.orders.length > 0 &&
+                    this.props.orders.map((item,index) => {
+                      total += item.count * item.menu.price;
+                      return (
+                        <TableRow hover key={item.menu.id}>
+                          <TableCell align={"center"}>
+                            {index + 1}
+                          </TableCell>
+                          <TableCell>
+                            {item.menu.name}
+                          </TableCell>
+                          <TableCell align={"center"}>
                             {item.count}
-                            &times;
-                            {item.menu.price}
-                          </div>
-                          <div className={"order_price"}>
+                          </TableCell>
+                          <TableCell align={"right"}>
+                              &times;
+                              {item.menu.price}
+                          </TableCell>
+                          <TableCell align={"right"}>
                             {item.count * item.menu.price}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })
-                }
-                <div className={"order_row"}>
-                  <div className={"order_total"}>
-                    {total}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  }
+                  <TableRow>
+                    <TableCell colSpan={4} align={"right"}>
+                      Total
+                    </TableCell>
+                    <TableCell align={"right"}>
+                      {total}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Fade>
+      </Modal>
     );
   }
 }
