@@ -32,3 +32,7 @@
     box-shadow: 0 0 black;
     padding: 20px;
 }
+
+.auth-text-box {
+    width: 300px;
+}

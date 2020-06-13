@@ -1,24 +1,20 @@
 import React from 'react';
-import Container from "@material-ui/core/Container";
+import { BrowserRouter as Router,Switch,Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "./components/appbar/AppBar";
-import "./App.css";
-
-import Menu from "./components/menu/Menu";
-import OrderModal from "./components/modal/OrderModal";
+import HomePage from "./pages/HomePage";
+import MenusPage from "./pages/MenusPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
-    <div>
+    <Router>
       <CssBaseline/>
-      <AppBar/>
-      <Toolbar/>
-      <Container className="App" maxWidth={false} >
-        <Menu/>
-        <OrderModal/>
-      </Container>
-    </div>
+      <Switch>
+        <Route exact path={"/"}><HomePage/></Route>
+        <Route exact path={"/menus"}><MenusPage/></Route>
+        <Route exact path={"/login"}><LoginPage/></Route>
+      </Switch>
+    </Router>
   );
 }
 

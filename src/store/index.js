@@ -3,11 +3,12 @@ import thunk from 'redux-thunk';
 
 import TABLES from "../constants/tables";
 import {
+  CHECK_LOGIN,
   CLOSE_MODAL,
   GET_MENUS_FAILED,
   GET_MENUS_STARTED, GET_MENUS_SUCCESS,
   GET_ORDERS,
-  GET_TABLES,
+  GET_TABLES, LOGIN_FAILED, LOGIN_STARTED, LOGIN_SUCCESS,
   OPEN_MODAL,
   SET_TABLE,
   UPDATE_ORDER
@@ -19,8 +20,11 @@ const init_state = {
   table: null,
   order_modal: false,
   loading: {
-    menus: false
-  }
+    menus: false,
+    login: false
+  },
+  login: false,
+  token: null
 };
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -84,11 +88,29 @@ let store = createStore(function (state = init_state, action) {
     case CLOSE_MODAL:
       return {...state, order_modal: false};
 
+    case CHECK_LOGIN:
+      if(localStorage.getItem("token")){
+        return {...state, loading: {...state.loading, login: false}, login: true, token: localStorage.getItem("token")};
+      }
+      return {...state, loading: {...state.loading, login: false}, login: false, token: null};
+
+    case LOGIN_STARTED:
+      localStorage.removeItem('token');
+      return {...state, loading: {...state.loading, login: true}, login: false, token: null}
+
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', action.payload.token);
+      return {...state, loading: {...state.loading, login: false}, login: true, token: action.payload.token};
+
+    case LOGIN_FAILED:
+      localStorage.setItem('token', null);
+      return {...state, loading: {...state.loading, login: false}, login: false, token: null};
+
     default:
       return state;
   }
 }, composeEnhancer(applyMiddleware(thunk)));
 
 store.dispatch({type: GET_TABLES});
-
+store.dispatch({type: CHECK_LOGIN});
 export default store;

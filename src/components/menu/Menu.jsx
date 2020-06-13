@@ -40,7 +40,7 @@ let ReduxMenu = connect(state => {
 }, dispatch => {
   return {
     getMenus: dispatch(getMenus())
-  };
+  }
 })(Menu);
 
 export default withStyles(useStyles)(ReduxMenu);
